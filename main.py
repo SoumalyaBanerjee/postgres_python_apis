@@ -92,3 +92,7 @@ def get_users():
     finally:
         cursor.close()
         conn.close()
+
+@app.get("/")
+def home():
+    return {"message": "FastAPI is running on Render!"}
