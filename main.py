@@ -29,6 +29,7 @@ def get_db_connection():
 # API: Bulk Insert Users
 @app.post("/users/bulk-insert")
 def bulk_insert_users(users: list[dict]):
+    print("Inside bulk insert")
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
