@@ -33,10 +33,18 @@ def bulk_insert_users(users: list[dict]):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        values = [(user.name, user.email) for user in users]
-        query = "INSERT INTO users (name, email) VALUES %s RETURNING id"
-        psycopg2.extras.execute_values(cursor, query, values)
-        conn.commit()
+        # values = [(user.name, user.email) for user in users]
+        # query = "INSERT INTO users (name, email) VALUES %s RETURNING id"
+        # psycopg2.extras.execute_values(cursor, query, values)
+        for i in users:
+            name = i['name']
+            email = i['email']
+            print(name)
+            print(email)
+            query = f"INSERT INTO users (name,email) VALUES ('{name}','{email}') RETURNING id"
+            cursor.execute(query)
+            conn.commit()
+        # conn.commit()
         return {"message": "Users inserted successfully"}
     except Exception as e:
         conn.rollback()
