@@ -76,13 +76,15 @@ def bulk_update_users(users: List[dict]):
 
 # API: Bulk Delete Users
 @app.delete("/users/bulk-delete")
-def bulk_delete_users(users: List[UserDelete]):
+def bulk_delete_users(users: List[dict]):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        ids = [user.id for user in users]
-        cursor.execute("DELETE FROM users WHERE id = ANY(%s)", (ids,))
-        conn.commit()
+        for user in users:
+            id=user['id']
+            query = f"DELETE FROM users WHERE id = '{id}'"
+            cursor.execute(query)
+            conn.commit()
         return {"message": "Users deleted successfully"}
     except Exception as e:
         conn.rollback()
