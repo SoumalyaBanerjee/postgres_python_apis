@@ -55,12 +55,16 @@ def bulk_insert_users(users: list[dict]):
 
 # API: Bulk Update Users
 @app.put("/users/bulk-update")
-def bulk_update_users(users: List[UserUpdate]):
+def bulk_update_users(users: List[dict]):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
         for user in users:
-            cursor.execute("UPDATE users SET name=%s, email=%s WHERE id=%s", (user.name, user.email, user.id))
+            name = user['name']
+            email = user['email']
+            id = user['id']
+            query =f"UPDATE users SET name='{name}', email='{email}' WHERE id='{id}'"
+            cursor.execute(query)
         conn.commit()
         return {"message": "Users updated successfully"}
     except Exception as e:
