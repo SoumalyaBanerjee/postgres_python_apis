@@ -7,7 +7,7 @@ import uuid
 from datetime import datetime
 
 # Database connection details
-DB_URL = "postgresql://your_username:your_password@your_host:your_port/your_database"
+DB_URL = "postgresql://soumalya:v4t55tNSZli8mbGZnSQhvE4IhlkhQLsj@dpg-cvf6i6tsvqrc73cteo3g-a.singapore-postgres.render.com/thrift_9efb"
 
 # FastAPI app
 app = FastAPI()
