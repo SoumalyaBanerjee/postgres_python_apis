@@ -126,6 +126,24 @@ def bulk_update_power_logs(logs: List[PowerLog]):
         cursor.close()
         conn.close()
 
+# API: Bulk Delete Power Logs
+@app.delete("/power_logs/bulk-delete")
+def bulk_delete_power_logs(log_ids: List[int]):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        query = "DELETE FROM power_logs WHERE log_id = ANY(%s)"
+        cursor.execute(query, (log_ids,))
+        conn.commit()
+        return {"message": "Power logs deleted successfully"}
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        cursor.close()
+        conn.close()
+
+
 # API: Select Power Logs
 @app.get("/power_logs")
 def get_power_logs():
